@@ -1,0 +1,164 @@
+#
+############CONTROLING VERBOSE
+#/control/verbose 2
+#/run/verbose 2
+#/event/verbose 0
+#/tracking/verbose 1
+#/tracking/verbose 0
+##########################PHANTOM##################
+#FOR MAMMOGRAPHY, choose MAMMO; choose MIRDHead for single head or choose MIRD for whole body (default)
+#
+/phantom/setPhantomModel MIRD
+#MIRD
+#MAMMO
+#MIRDHead
+#
+#Sex: Male or Female
+#
+/phantom/setPhantomSex Female
+/phantom/setPhantomAge 40
+/phantom/phantom_height 178.60 cm
+/phantom/setAgeGroup adult
+#newborn
+#age_1
+#age_5
+#age_10
+#age_15
+#adult
+#200 cm
+#160 cm
+#174 cm
+/phantom/phantom_mass 71.4614 kg
+#new female standard 71.4614 kg 
+#new male standard 69.8885 kg 
+#height 178.60 cm
+#100.0 kg
+#50 kg
+#73.3201 kg
+#old female standard 73.3201 kg
+#old male standard 71.7475 kg........male
+##########################################
+#if mammo....SET MAMMOGRAPHY DATA: Breast is a cylinder due to compression device.
+/phantom/focusToBreastDistance 50.0 cm
+/phantom/breast_total_diameter 14.0 cm
+/phantom/breast_total_height 5.0 cm
+#
+/phantom/buildNewPhantom
+/run/initialize
+# Visualize Phantom with OPENGL NO MAMMO (comment/uncomment next line accordingly!!!!!!!!!!!!!!!!)
+/control/execute vis.mac
+# Visualize Phantom with OPENGL RECCOMENDED FOR MAMMO(comment/uncomment next line accordingly!!!!!!!!!!!!!!!!)
+#/control/execute visMammo.mac
+#########################SPECTRUM#################################################################
+#if primary generator is monoenergetic or a spectrum.
+###note: -------------->if spectrum then /gun/energy data is neglected!
+#
+/xfield/isSpectrum? yes
+#
+#######The following SPECTRUM data require NO UNITS!!
+#--------------Set XRay voltage
+/xfield/kVp 80.0
+#--------------Set Xray tube filtration in mmAl:
+/xfield/filtration 2.5
+#--------------Set XRay tube anode material: W for tungsten; MO for molibden and RH for rhuteniu.
+/xfield/anodMaterial W
+#--------------Set XRay tube anode angle in degrees
+/xfield/anodAngle 17
+#--------------Set waveform ripple in %. Tubs: constant potential=>0; 3phase6P=>~10 or 15; 3phase12P=>~5
+/xfield/ripple 0
+#...........optional for DAP evaluation from spectrum:
+#
+/xfield/mAs 150
+#If want to use mAs (and Kerma from spectrum) for DAP calculation:----> It will ignore /xfield/DAP[uGymm2] data
+/xfield/use_mAs_for_DAP_calculation? yes
+#
+#-----------------------------------------------------------------------------------------------------------------------
+#####################Note:Limited SRS78 database (based on Birch-Marshall theory of XRay-spectra):
+#anode material: W =>kv range:30-150; anodAngle range 6-22; ripple 0; for ripples of 5,10,15,20,25,30 it is supported
+#only the following kilovoltages: 55,60,65,70,75,80,85,90
+#anode material MO or RH:=>kv range:25-32; anodAngle range 9-23; ripple 0; No ripple available
+########################END SPECTRUM DATA#############################################################
+######################RECTANGLE FIELD SETUP#################
+#######Field projection############
+####polar angle = canio-caudal projection; default=0 for all purposes!
+####azimuthal=0.0 deg=PA projection;azimuthal=90.0 deg=RLAT projection;
+####azimuthal=180.0 deg=AP projection;azimuthal=270.0 deg=LLAT projection;
+#
+/xfield/azimuthalAngle 180.0 deg
+/xfield/polarAngle 0.0 deg
+#
+/xfield/focusToPhantomSymmetryAxisDistance 90 cm
+#
+#########DAP meanning measured (or calculated) Dose-area product free in air. Mandatory units: microGy*mm2
+#
+/xfield/DAP[uGymm2] 250.9
+#
+##########CTScan additional data
+##note: if CTScan, then /xfield/height play the role of distance between startscan and endscan!
+##Also, the xfield/width play the role of beam wideness if fanBeam option is "on"!
+#If CTScan, then azimuthalAngle and polarAngle are automatically set to 0.0!! 
+#angle increment is the angle between two succesive individual scans. 
+#CTScan simulation: place X-ray tube at startscan position; scan,rotate,scan...
+#until a 360deg rotation is completed; move X-ray tube by sliceThickness and repeat...until endScan position is reached.
+#If CTScan is fan beam set the flag to "on"...if it is a pencil beam set to "off".
+#
+/xfield/sliceThickness 1.0 mm
+/xfield/angleIncrement 1.0 deg
+/xfield/SetFanBeam on
+/xfield/SetHelicalScan on
+/xfield/SetHalfField on
+/xfield/SetDentalPanoramic on
+/xfield/pitch 1.0
+#
+######################CTDI or dose/rotation in mandatory microGy units
+/xfield/CTDI[uGy] 250
+##########HEAD#############
+/xfield/centerY 85 cm
+/xfield/centerX 0.0 cm
+/xfield/width 19.0 cm
+/xfield/height 27.0 cm
+###################################################################
+#setting modulo, i.e when to print simulation info!
+#
+/event/printModulo 100
+#
+# after each [printModulo] events
+##############################################################
+#########source control 0=from activity in Bq or quantas/s;1=from kerma in  Gy; 2=particle counter; 3=simulation number of runs, beamOn
+##exposure Time in seconds; radiation yield 1 means 100% probability; if not isotropic source, then emmission area in mm2 must be known
+#for mode 1, kerma in Gy at entry surface must be known; and also mass-energy transfer coefficient [cm2/g] for photons at incident energy in medium.
+/source/quantaMode 3
+/source/activity 3000
+/source/exposureTime 1
+/source/isotropicSource on
+/source/radiationYield 1
+/source/emmissionArea 1000000
+/source/kerma 0.060
+/source/mentr 0.0289
+/source/particleCounter 1E4
+#########Common View option
+#Comment and uncomment the next line to: see initial field setup/not see it but do not superimpose scene!
+#/vis/scene/endOfEventAction refresh
+/vis/viewer/set/autoRefresh false
+###########################################
+# Set Direction of Beam. beamAlongX,Y,Z and isotropicFlux require no additional setup!
+#
+#/gun/setBeam beamAlongX
+#/gun/setBeam beamAlongY
+#/gun/setBeam beamAlongZ
+#/gun/setBeam isotropicFlux
+/gun/setBeam rectangleField
+#/gun/setBeam CTScan
+#
+#/run/initialize
+######KINETIC ENERGY! has effect only in monoenergetic case!#########
+/gun/particle gamma
+/gun/energy 0.080 MeV
+#/gun/particle alpha
+#/gun/energy 5.486 MeV
+#/gun/particle e+
+#/gun/energy 0.600 MeV
+#/gun/particle e-
+#/gun/energy 0.600 MeV
+#
+/run/beamOn 5000
