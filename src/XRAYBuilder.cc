@@ -64,7 +64,7 @@ void XRayBuilder::generateSpectrum(){
 	int ianod_file = anodAngle;
 	string ianod_fileS=intToString(ianod_file);
 	string uanodS = "";
-	if (anodAngle > 10) {
+	if (anodAngle >= 10) {
 		if (ianod == 0)
 			uanodS = ianod_fileS + "0";
 		else if (ianod == 1)
