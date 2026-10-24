@@ -62,9 +62,9 @@ G4VPhysicalVolume* MIRDRightClavicle::Construct(const G4String&,G4VPhysicalVolum
                                           const G4String&, G4bool, G4bool)
 {
 	//VOL = VOL*scaleXY*scaleXY*scaleZ;//scalexy^2*scaleZ=M/M0=V/V0	
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initClavicles();
-  std::map<std::string,clavicles_struct> esp = mmc->GetClaviclesMap();    
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initClavicles();//mmc->initClavicles();
+  auto esp = mmc.GetClaviclesMap();//std::map<std::string,clavicles_struct> esp = mmc->GetClaviclesMap();    
   VOL = 0.5*scaleXY*scaleXY*scaleZ*esp[ageGroup].volume; 
   return 0;
 }

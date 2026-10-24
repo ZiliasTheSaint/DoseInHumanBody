@@ -61,19 +61,19 @@ G4VPhysicalVolume* MIRDLeftLeg::Construct(const G4String& volumeName, G4VPhysica
  
   G4cout << "Construct"<< volumeName << G4endl;
 
-  HumanPhantomMaterial* material = new HumanPhantomMaterial();
-  G4Material* soft = material -> GetMaterial("soft_tissue");
+  HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+  G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
  
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double at = scaleXY*trk[ageGroup].At;
   at=0.5*at;//divide in two parts=>two legs
-  mmc->initLegs();
-  std::map<std::string,legs_struct> lgs = mmc->GetLegsMap(); 
+  mmc.initLegs();//mmc->initLegs();
+  auto lgs = mmc.GetLegsMap(); //std::map<std::string,legs_struct> lgs = mmc->GetLegsMap(); 
   G4double cl=scaleZ*lgs[ageGroup].Cl;
   G4double cpl=scaleZ*lgs[ageGroup].Cpl;
-  delete mmc;
+  //delete mmc;
   G4double R2=(at/4.0)*(cpl-cl)/cpl;//adult=1 to adjust match leg bone
   //R2 leg=>2R2 (its diameter) for leg
 
@@ -117,8 +117,8 @@ G4VPhysicalVolume* MIRDLeftLeg::Construct(const G4String& volumeName, G4VPhysica
 
   // Visualization Attributes
   
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* LeftLegVisAtt = new G4VisAttributes(colour);
   LeftLegVisAtt->SetForceSolid(wireFrame);
   logicLeftLeg->SetVisAttributes(LeftLegVisAtt);

@@ -57,26 +57,26 @@ G4VPhysicalVolume* MIRDRightLegBone::Construct(const G4String& volumeName,G4VPhy
                                                       const G4String& colourName, G4bool wireFrame,G4bool sensitivity)
 {
  
-  HumanPhantomMaterial* material = new HumanPhantomMaterial();
+  HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
   
   G4cout << "Construct " << volumeName << G4endl;
    
-  G4Material* skeleton = material -> GetMaterial("skeleton");
+  G4Material* skeleton = material.GetMaterial("skeleton");//material -> GetMaterial("skeleton");
   
-  delete material;
+  //delete material;
  
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double at = scaleXY*trk[ageGroup].At;  
-  mmc->initLegs();
-  std::map<std::string,legs_struct> lgs = mmc->GetLegsMap(); 
+  mmc.initLegs();//mmc->initLegs();
+  auto lgs = mmc.GetLegsMap();//std::map<std::string,legs_struct> lgs = mmc->GetLegsMap(); 
   G4double cl=scaleZ*lgs[ageGroup].Cl;
   G4double cpl=scaleZ*lgs[ageGroup].Cpl;
-  mmc->initSkin();
-  std::map<std::string,skin_struct> skn = mmc->GetSkinMap();
+  mmc.initSkin();//mmc->initSkin();
+  auto skn = mmc.GetSkinMap();//std::map<std::string,skin_struct> skn = mmc->GetSkinMap();
   G4double s = scaleXY*skn[ageGroup].S;//scale!!??!!fat=>more skin!
-  delete mmc;
+  //delete mmc;
   G4double R1=0.175*at;//adult=3.5
   G4double R2=(at/4.0)*(cpl-cl)/cpl;//adult=1
 
@@ -116,8 +116,8 @@ G4VPhysicalVolume* MIRDRightLegBone::Construct(const G4String& volumeName,G4VPhy
   }
 
   // Visualization Attributes
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* RightLegBoneVisAtt = new G4VisAttributes(colour);
 
   RightLegBoneVisAtt->SetForceSolid(wireFrame);

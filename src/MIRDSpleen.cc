@@ -59,23 +59,23 @@ G4VPhysicalVolume* MIRDSpleen::Construct(const G4String& volumeName,G4VPhysicalV
 {
 
   G4cout << "Construct "<< volumeName << G4endl;
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
 
- MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+ MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initSpleen();
-  std::map<std::string,spleen_struct> spl = mmc->GetSpleenMap();  
+  mmc.initSpleen();//mmc->initSpleen();
+  auto spl = mmc.GetSpleenMap();//std::map<std::string,spleen_struct> spl = mmc->GetSpleenMap();  
   G4double a = scaleXY*spl[ageGroup].a;
   G4double b = scaleXY*spl[ageGroup].b;
   G4double c = scaleZ*spl[ageGroup].c;
   G4double x0 = scaleXY*spl[ageGroup].x0;  
   G4double y0 = scaleXY*spl[ageGroup].y0;  
   G4double z0 = scaleZ*spl[ageGroup].z0;    
-  delete mmc;
+  //delete mmc;
 
  G4double ax= a;//scaleXY*3.5 *cm;
  G4double by= b;//scaleXY*2. *cm;
@@ -107,8 +107,8 @@ G4VPhysicalVolume* MIRDSpleen::Construct(const G4String& volumeName,G4VPhysicalV
 
   // Visualization Attributes
   // G4VisAttributes* SpleenVisAtt = new G4VisAttributes(G4Colour(0.41,0.41,0.41));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* SpleenVisAtt = new G4VisAttributes(colour);
   SpleenVisAtt->SetForceSolid(wireFrame);
   logicSpleen->SetVisAttributes(SpleenVisAtt);

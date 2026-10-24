@@ -58,23 +58,30 @@ G4VPhysicalVolume* MIRDUterus::Construct(const G4String& volumeName,G4VPhysicalV
  
   G4cout << "Construct " << volumeName << G4endl;
  
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ /*HumanPhantomMaterial* material = new HumanPhantomMaterial();
  G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ delete material;*/
+  // 1. Alocare directã pe stivã pentru materiale (fãrã pointeri pe heap)
+  HumanPhantomMaterial material;
+  G4Material* soft = material.GetMaterial("soft_tissue");
 
- MirdMapConstants* mmc = new MirdMapConstants();  
+  /*MirdMapConstants* mmc = new MirdMapConstants();  
   mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap(); */
+  MirdMapConstants mmc;  
+  mmc.initTrunk();
+  auto trk = mmc.GetTrunkMap();  
+
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initUterus();
-  std::map<std::string,uterus_struct> utr = mmc->GetUterusMap();  
+  mmc.initUterus();//mmc->initUterus();
+  auto utr = mmc.GetUterusMap();  //std::map<std::string,uterus_struct> utr = mmc->GetUterusMap();  
   G4double a = scaleXY*utr[ageGroup].a;
   G4double b = scaleXY*utr[ageGroup].b;
   G4double c = scaleZ*utr[ageGroup].c;
   G4double y0 = scaleXY*utr[ageGroup].y0;  
   G4double z0 = scaleZ*utr[ageGroup].z0;  
   G4double y1 = scaleXY*utr[ageGroup].y1;  
-  delete mmc;
+  //delete mmc;
 
   //must rotate to use zcuts!!!
   //remember. y0,y1 are negative!!!!
@@ -94,7 +101,6 @@ G4VPhysicalVolume* MIRDUterus::Construct(const G4String& volumeName,G4VPhysicalV
 						     soft,
 						     "logical" + volumeName,
 						     0, 0, 0);
-
 
   G4RotationMatrix* rm = new G4RotationMatrix();
   rm -> rotateX(90.* degree); 
@@ -119,8 +125,9 @@ G4VPhysicalVolume* MIRDUterus::Construct(const G4String& volumeName,G4VPhysicalV
   // Visualization Attributes
   //  G4VisAttributes* UterusVisAtt = new G4VisAttributes(G4Colour(0.85,0.44,0.84));
 
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  // REPARARE COLOUR LEAK: Alocãm clasa de culoare direct pe stivã
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//G4Colour colour = colourPointer -> GetColour(colourName);
   G4VisAttributes* UterusVisAtt = new G4VisAttributes(colour);  
   UterusVisAtt->SetForceSolid(wireFrame);
   logicUterus->SetVisAttributes(UterusVisAtt);

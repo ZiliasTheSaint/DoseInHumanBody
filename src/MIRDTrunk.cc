@@ -54,17 +54,17 @@ G4VPhysicalVolume* MIRDTrunk::Construct(const G4String& volumeName, G4VPhysicalV
 					      const G4String& colourName, G4bool wireFrame,G4bool sensitivity)
 {
 
-  HumanPhantomMaterial* material = new HumanPhantomMaterial();
+  HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
    
   G4cout << "Construct " << volumeName << G4endl;
    
-  G4Material* soft = material -> GetMaterial("soft_tissue");
+  G4Material* soft = material.GetMaterial("soft_tissue");;//material -> GetMaterial("soft_tissue");
  
-  delete material;
+  //delete material;
   //=================================================
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();
   G4double at = trk[ageGroup].At;
   G4double bt = trk[ageGroup].Bt;
   G4double ct = trk[ageGroup].Ct;
@@ -102,11 +102,11 @@ G4VPhysicalVolume* MIRDTrunk::Construct(const G4String& volumeName, G4VPhysicalV
     logicTrunk->SetSensitiveDetector( SDman->FindSensitiveDetector("BodyPartSD") );
   }
 
-  delete mmc;
+  //delete mmc;
 
   // Visualization Attributes
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* TrunkVisAtt = new G4VisAttributes(colour);
   TrunkVisAtt->SetForceSolid(wireFrame);
   TrunkVisAtt->SetVisibility(true);//false);//true);

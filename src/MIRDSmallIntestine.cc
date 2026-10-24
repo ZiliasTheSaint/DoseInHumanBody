@@ -61,9 +61,9 @@ G4VPhysicalVolume* MIRDSmallIntestine::Construct(const G4String&,G4VPhysicalVolu
                                           const G4String&, G4bool, G4bool)
 {
 	//VOL = VOL*scaleXY*scaleXY*scaleZ;//scalexy^2*scaleZ=M/M0=V/V0 
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initSmallIntestine();
-  std::map<std::string,smallIntestine_struct> esp = mmc->GetSmallIntestineMap();    
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initSmallIntestine();//mmc->initSmallIntestine();
+  auto esp = mmc.GetSmallIntestineMap(); //std::map<std::string,smallIntestine_struct> esp = mmc->GetSmallIntestineMap();    
   VOL = scaleXY*scaleXY*scaleZ*esp[ageGroup].volume; 
   return 0;
 }

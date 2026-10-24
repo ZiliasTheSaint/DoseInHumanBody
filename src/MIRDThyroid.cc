@@ -166,9 +166,13 @@ G4SubtractionSolid* thyroid = new G4SubtractionSolid("SecondThyroid",
   */
 //VOL = VOL*scaleXY*scaleXY*scaleZ;//scalexy^2*scaleZ=M/M0=V/V0
 
-MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initThyroid();
-  std::map<std::string,thyroid_struct> esp = mmc->GetThyroidMap();    
+  MirdMapConstants mmc;// = new MirdMapConstants();
+  mmc.initThyroid();//mmc->initThyroid();
+  auto esp = mmc.GetThyroidMap(); //std::map<std::string,thyroid_struct> esp = mmc->GetThyroidMap();    
   VOL = scaleXY*scaleXY*scaleZ*esp[ageGroup].volume; 
+  
+  //return no G4VPhysicalVolume pointer
   return 0;
+  //or mother if crash. it will return headVolume...phantomBuilder: body -> CreateOrgan("Thyroid",headVolume, colourName,solidVis, sensitivity);
+  //no mother....if mother duplicate dose in head with edep in thyroid when humanPhantomSD
 }

@@ -59,16 +59,16 @@ G4VPhysicalVolume* MIRDUpperLargeIntestine::Construct(const G4String& volumeName
 {
   G4cout << "Construct " << volumeName<< G4endl;
   
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
 
- MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;  //MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap(); //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initUpperLargeIntestine();
-  std::map<std::string,upperLargeIntestine_struct> uli = mmc->GetUpperLargeIntestineMap();  
+  mmc.initUpperLargeIntestine();//mmc->initUpperLargeIntestine();
+  auto uli = mmc.GetUpperLargeIntestineMap();//std::map<std::string,upperLargeIntestine_struct> uli = mmc->GetUpperLargeIntestineMap();  
   G4double a = scaleXY*uli[ageGroup].a;
   G4double b = scaleXY*uli[ageGroup].b;
   G4double d = scaleXY*uli[ageGroup].d;
@@ -76,15 +76,15 @@ G4VPhysicalVolume* MIRDUpperLargeIntestine::Construct(const G4String& volumeName
   G4double y0 = scaleXY*uli[ageGroup].y0;  
   G4double z1 = scaleZ*uli[ageGroup].z1;    
   G4double z2 = scaleZ*uli[ageGroup].z2; 
-  mmc->initTransverseColon();
-  std::map<std::string,transverseColon_struct> trc = mmc->GetTransverseColonMap();  
+  mmc.initTransverseColon();//mmc->initTransverseColon();
+  auto trc = mmc.GetTransverseColonMap(); //std::map<std::string,transverseColon_struct> trc = mmc->GetTransverseColonMap();  
   G4double bC = scaleXY*trc[ageGroup].b;
   G4double cC = scaleZ*trc[ageGroup].c;
   G4double dC = scaleXY*trc[ageGroup].d;
   G4double y0C = scaleXY*trc[ageGroup].y0;  
   G4double z0C = scaleZ*trc[ageGroup].z0;  
   G4double x1C = scaleXY*trc[ageGroup].x1;      
-  delete mmc;
+  //delete mmc;
   G4double zcenter = 0.5*(z1+z2);
  G4double dx = a;//scaleXY*2.5 * cm; // aU
  G4double dy = b;//scaleXY*2.5* cm; //bU
@@ -137,8 +137,8 @@ G4VPhysicalVolume* MIRDUpperLargeIntestine::Construct(const G4String& volumeName
 
   // Visualization Attributes
   //  G4VisAttributes* UpperLargeIntestineVisAtt = new G4VisAttributes(G4Colour(1.0,1.0,0.0));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//G4Colour colour = colourPointer -> GetColour(colourName);
   G4VisAttributes* UpperLargeIntestineVisAtt = new G4VisAttributes(colour);
   UpperLargeIntestineVisAtt->SetForceSolid(wireFrame);
   logicUpperLargeIntestine->SetVisAttributes(UpperLargeIntestineVisAtt);

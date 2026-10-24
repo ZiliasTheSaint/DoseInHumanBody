@@ -61,9 +61,9 @@ G4VPhysicalVolume* MIRDThymus::Construct(const G4String&,G4VPhysicalVolume*,
                                           const G4String&, G4bool, G4bool)
 {
 	//VOL = VOL*scaleXY*scaleXY*scaleZ;//scalexy^2*scaleZ=M/M0=V/V0
-	MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initThymus();
-  std::map<std::string,thymus_struct> esp = mmc->GetThymusMap();    
+  MirdMapConstants mmc;// = new MirdMapConstants();
+  mmc.initThymus();//mmc->initThymus();
+  auto esp = mmc.GetThymusMap();//std::map<std::string,thymus_struct> esp = mmc->GetThymusMap();    
   VOL = scaleXY*scaleXY*scaleZ*esp[ageGroup].volume; 
   return 0;
 }

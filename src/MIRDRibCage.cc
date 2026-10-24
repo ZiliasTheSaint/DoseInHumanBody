@@ -53,25 +53,25 @@ MIRDRibCage::~MIRDRibCage()
 G4VPhysicalVolume* MIRDRibCage::Construct(const G4String& volumeName, G4VPhysicalVolume* mother,
 						 const G4String& colourName, G4bool wireFrame, G4bool sensitivity)
 {
-  HumanPhantomMaterial* material = new HumanPhantomMaterial();   
+  HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();   
   G4cout << "Construct "<< volumeName  <<G4endl;   
-  G4Material* skeleton = material -> GetMaterial("skeleton");
-  G4Material* soft = material -> GetMaterial("soft_tissue"); 
-  delete material; 
+  G4Material* skeleton = material.GetMaterial("skeleton");//material -> GetMaterial("skeleton");
+  G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue"); 
+  //delete material; 
 
-  MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;  //MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initRibCage();
-  std::map<std::string,ribCage_struct> rbc = mmc->GetRibCageMap();  
+  mmc.initRibCage();//mmc->initRibCage();
+  auto rbc = mmc.GetRibCageMap();  //std::map<std::string,ribCage_struct> rbc = mmc->GetRibCageMap();  
   G4double a = scaleXY*rbc[ageGroup].a;
   G4double b = scaleXY*rbc[ageGroup].b;
   G4double d = scaleXY*rbc[ageGroup].d;
   G4double z1 = scaleZ*rbc[ageGroup].z1;  
   G4double z2 = scaleZ*rbc[ageGroup].z2;  
   G4double c = scaleZ*rbc[ageGroup].c;    
-  delete mmc;
+  //delete mmc;
   G4double zcenter = 0.5*(z1+z2);
   G4double dx= a;//scaleXY*17. *cm; // a2
   G4double dy= b;//scaleXY*9.8 * cm; //b2
@@ -233,8 +233,8 @@ G4VPhysicalVolume* MIRDRibCage::Construct(const G4String& volumeName, G4VPhysica
 
   //G4VisAttributes* RibCageVisAtt = new G4VisAttributes(G4Colour(0.46,0.53,0.6));
 
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* RibCageVisAtt = new G4VisAttributes(colour); 
   RibCageVisAtt->SetForceSolid(wireFrame);
   logicRib->SetVisAttributes(RibCageVisAtt);

@@ -49,7 +49,28 @@ XRayBuilder::XRayBuilder(double kv, double filtration, double anodAngle, double 
 }
 
 XRayBuilder::~XRayBuilder()
-{;}
+{
+	//Stergem vectorii livrati catre RunAction
+	//if (energyArrayMeV) delete[] energyArrayMeV;
+    //if (probArray)      delete[] probArray;
+	//en and prob will be deleted by consumer RunAction!!!!!
+
+	//delete private pointers
+	if (en_array) delete[] en_array;
+	if (YF)       delete[] YF;
+	if (XVAL)     delete[] XVAL;
+	if (KVAL)     delete[] KVAL;
+    if (YS)       delete[] YS;
+    if (TMM)      delete[] TMM;
+    if (ATTVAL)   delete[] ATTVAL;
+   
+    if (ATT) {
+        for (int i = 0; i < ndata; i++) {
+            delete[] ATT[i]; // Sterge cele 20 de coloane alocate pentru fiecare linie
+        }
+        delete[] ATT; // Sterge vectorul principal de pointeri
+    }
+}
 
 void XRayBuilder::generateSpectrum(){
 
@@ -179,7 +200,7 @@ void XRayBuilder::readSpectrum(string filename){
 			}
 			//G4cout <<enV.back()<<"  "<<pV.back()<<"\n";
 		}
-		
+		delete[] str;
 	}//while (myfile.good())
 	
 	//G4cout << "\nNdata= " << ndata<<"\n";
@@ -258,7 +279,7 @@ void XRayBuilder::readKerma(string filename){
 			}
 			//G4cout <<enV.back()<<"  "<<pV.back()<<"\n";
 		}
-		
+		delete[] str;
 	}//while (myfile.good())
 	
 	//G4cout << "\nNumber of lines in text file [KERMA]: " << number_of_lines<<"\n";
@@ -326,7 +347,7 @@ void XRayBuilder::readAttCoef(string filename, int j)
 			}
 			//G4cout <<enV.back()<<"  "<<pV.back()<<"\n";
 		}
-		
+		delete[] str;
 	}//while (myfile.good())
 	
 	//G4cout << "\nNumber of lines in text file [FILTER]: " << number_of_lines<<" ndatak "<<ndatak<<"\n";
@@ -370,6 +391,33 @@ void XRayBuilder::buildSpectra(){
 	for (int i = 1; i <= N; i++) {
 		TOT_PHOTONS = TOT_PHOTONS + YF[i - 1];
 	}
+
+	//->Gemini FIX: Alocam si populam cache-ul spectral o singura data la nasterea spectrului!
+	/*
+	want to get rid of this leaks in .hh:
+	double* GetEnergyArray(){
+	  double* meven=new double[NEFF];
+	  for (int i=0;i<NEFF;i++)
+		  meven[i]=en_array[i]/1000.0;//toMeV
+	  return meven;//en_array;
+  };  
+  
+  double* GetProbArray(){
+	  double* p=new double[NEFF];
+	  for (int i=0;i<NEFF;i++)
+		  p[i]=YF[i]/TOT_PHOTONS;
+	  return p;
+  };
+	
+    energyArrayMeV = new double[NEFF];
+    probArray = new double[NEFF];
+    for (int i = 0; i < NEFF; i++) {
+        energyArrayMeV[i] = en_array[i] / 1000.0; // Conversia in MeV solicitata de Geant4
+        probArray[i] = YF[i] / TOT_PHOTONS;       // Normalizarea probabilitatilor
+    }
+
+	nope....pointers will be deleted by RunActions!!!!
+	*/
 }
 
 void XRayBuilder::resetYS(){
@@ -500,7 +548,7 @@ void XRayBuilder::readAttCoef(string filename)
 			}
 			//G4cout <<enV.back()<<"  "<<pV.back()<<"\n";
 		}
-		
+		delete[] str;
 	}//while (myfile.good())
 	
 	//G4cout << "\nNumber of lines in text file [FILTER]: " << number_of_lines<<" ndatak "<<ndatak<<"\n";

@@ -167,7 +167,7 @@ MIRDBodyFactory::~MIRDBodyFactory()
   delete organ["UpperLargeIntestine"]; organ["UpperLargeIntestine"] =0; 
   delete organ["Stomach"]; organ["Stomach"] =0;  
   delete organ["Pelvis"]; organ["Pelvis"] =0;  
-  delete organ["MiddleLowerSpine"]; organ["MidlleLowerSpine"]=0;
+  delete organ["MiddleLowerSpine"]; organ["MiddleLowerSpine"]=0;//organ["MidlleLowerSpine"]=0;
   delete organ["UpperSpine"]; organ["UpperSpine"]=0;  
   delete organ["RightArmBone"]; organ["RightArmBone"] =0;
   delete organ["LeftArmBone"]; organ["LeftArmBone"] =0;  
@@ -188,6 +188,16 @@ MIRDBodyFactory::~MIRDBodyFactory()
   delete organ["SmallIntestine"];organ["SmallIntestine"]=0;
   delete organ["Thymus"];organ["Thymus"]=0;
   delete organ["FacialBones"]; organ["FacialBones"]=0;
+
+  /*
+  Mai usor ar fi fost:
+  for (auto it = organ.begin(); it != organ.end(); ++it) {
+        delete it->second; // Stergem organul real de pe Heap
+    }
+    organ.clear();
+  
+  
+  */
 }
 
 

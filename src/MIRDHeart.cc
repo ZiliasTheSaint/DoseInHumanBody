@@ -137,9 +137,9 @@ G4VPhysicalVolume* MIRDHeart::Construct(const G4String&,G4VPhysicalVolume*,
   return physHeart;
   */
 	//VOL = VOL*scaleXY*scaleXY*scaleZ;//scalexy^2*scaleZ=M/M0=V/V0
-	MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initHeart();
-  std::map<std::string,heart_struct> esp = mmc->GetHeartMap();    
+	MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initHeart();//mmc->initHeart();
+  auto esp = mmc.GetHeartMap();    //std::map<std::string,heart_struct> esp = mmc->GetHeartMap();    
   VOL = scaleXY*scaleXY*scaleZ*esp[ageGroup].volume;  
   return 0;
 }

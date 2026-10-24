@@ -32,6 +32,10 @@ public:
 		  p[i]=YF[i]/TOT_PHOTONS;
 	  return p;
   };
+  //leak catch by Gemini:
+  //double* GetEnergyArray() { return energyArrayMeV; }  
+  //double* GetProbArray()   { return probArray; }
+  //no leak..responsability pass to RunAction!!!!
 
   double Get_photons_per_mm2_per_uGy(){
 	  return TOT_PHOTONS/KERMAPERMASAT750MM;
@@ -58,6 +62,11 @@ public:
   
 
   private:
+	  //FIX: Vectorii stabili de cache pentru RunAction
+      //double* energyArrayMeV;
+      //double* probArray;
+	  //==========================
+
 	  double kv;
       double filtration;
       double anodAngle;

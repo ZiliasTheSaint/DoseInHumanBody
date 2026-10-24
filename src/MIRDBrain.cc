@@ -57,27 +57,27 @@ G4VPhysicalVolume* MIRDBrain::Construct(const G4String& volumeName,G4VPhysicalVo
 					       const G4String& colourName, G4bool wireFrame,G4bool sensitivity)
 {
   G4cout << "Construct " << volumeName << G4endl;
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
 
-  MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;  //MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double bt = scaleXY*trk[ageGroup].Bt;
-  mmc->initHead();
-  std::map<std::string,head_struct> hed = mmc->GetHeadMap();  
+  mmc.initHead();//mmc->initHead();
+  auto hed = mmc.GetHeadMap();  //std::map<std::string,head_struct> hed = mmc->GetHeadMap();  
   G4double rh = scaleXY*hed[ageGroup].Rh;
   G4double ch0 = scaleZ*hed[ageGroup].Ch0;
   G4double ch1 = scaleZ*hed[ageGroup].Ch1;
   G4double ch2 = scaleZ*hed[ageGroup].Ch2;
-  mmc->initBrain();
-  std::map<std::string,brain_struct> brn = mmc->GetBrainMap();    
+  mmc.initBrain();//mmc->initBrain();
+  auto brn = mmc.GetBrainMap();    //std::map<std::string,brain_struct> brn = mmc->GetBrainMap();    
   G4double a = scaleXY*brn[ageGroup].a;
   G4double b = scaleXY*brn[ageGroup].b;
   G4double c = scaleZ*brn[ageGroup].c;
   //G4double delta = scaleZ*brn[ageGroup].delta;
-  delete mmc;
+  //delete mmc;
 
   G4double deltaRh2=bt-rh;//move neck in the back instead....TO WORK!!!
 
@@ -114,8 +114,8 @@ G4VPhysicalVolume* MIRDBrain::Construct(const G4String& volumeName,G4VPhysicalVo
 
   // Visualization Attributes
   // G4VisAttributes* BrainVisAtt = new G4VisAttributes(G4Colour(0.41,0.41,0.41));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   
   G4VisAttributes* BrainVisAtt = new G4VisAttributes(colour);
   BrainVisAtt->SetForceSolid(wireFrame);

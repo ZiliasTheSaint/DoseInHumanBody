@@ -47,12 +47,12 @@
 
 MIRDHead::MIRDHead()
 {  
-  material = new HumanPhantomMaterial();
+   //material = new HumanPhantomMaterial();
 }
 
 MIRDHead::~MIRDHead()
 {
-  delete material;
+  //delete material;
 }
 
 G4VPhysicalVolume* MIRDHead::Construct(const G4String& volumeName,G4VPhysicalVolume* mother,
@@ -61,28 +61,29 @@ G4VPhysicalVolume* MIRDHead::Construct(const G4String& volumeName,G4VPhysicalVol
   G4cout << "Construct " << volumeName <<G4endl;
 
   //G4cout << "SCALE XY = " << scaleXY << "SCALE Z="<<scaleZ <<G4endl;//WORKS!!
+  HumanPhantomMaterial material;
 
-  G4Material* soft = material -> GetMaterial("soft_tissue");  
+  G4Material* soft = material.GetMaterial("soft_tissue"); //material -> GetMaterial("soft_tissue");  
   
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double bt = scaleXY*trk[ageGroup].Bt;
   G4double ct = scaleZ*trk[ageGroup].Ct;
-  mmc->initSpine();
-  std::map<std::string,spine_struct> spn = mmc->GetSpineMap();  
+  mmc.initSpine();//mmc->initSpine();
+  auto spn = mmc.GetSpineMap();  //std::map<std::string,spine_struct> spn = mmc->GetSpineMap();  
   //G4double a = scaleXY*spn[ageGroup].a;
   G4double b = scaleXY*spn[ageGroup].b;//max
   G4double y0 = scaleXY*spn[ageGroup].y0;//max
-  mmc->initHead();
-  std::map<std::string,head_struct> hed = mmc->GetHeadMap();  
+  mmc.initHead();//mmc->initHead();
+  auto hed = mmc.GetHeadMap();  //std::map<std::string,head_struct> hed = mmc->GetHeadMap();  
   G4double rh = scaleXY*hed[ageGroup].Rh;
   G4double ch0 = scaleZ*hed[ageGroup].Ch0;
   G4double ah = scaleXY*hed[ageGroup].Ah;
   G4double bh = scaleXY*hed[ageGroup].Bh;
   G4double ch1 = scaleZ*hed[ageGroup].Ch1;
   G4double ch2 = scaleZ*hed[ageGroup].Ch2;
-  delete mmc;
+  //delete mmc;
   //ensure it encompass the upper spine even if phantom neck does not look well!:
   G4double deltaRh2=bt-rh;//move neck in the back instead....TO WORK!!!
   //G4double deltaRh=y0+2.0*b-rh;
@@ -155,8 +156,8 @@ G4VPhysicalVolume* MIRDHead::Construct(const G4String& volumeName,G4VPhysicalVol
 
   // Visualization Attributes
 
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* HeadVisAtt = new G4VisAttributes(colour);
 
  HeadVisAtt->SetForceSolid(wireFrame);

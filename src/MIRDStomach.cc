@@ -59,23 +59,23 @@ G4VPhysicalVolume* MIRDStomach::Construct(const G4String& volumeName,G4VPhysical
 
   G4cout << "Construct "<< volumeName << G4endl;
  
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
 
- MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+ MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initStomach();
-  std::map<std::string,stomach_struct> stm = mmc->GetStomachMap();  
+  mmc.initStomach();//mmc->initStomach();
+  auto stm = mmc.GetStomachMap();//std::map<std::string,stomach_struct> stm = mmc->GetStomachMap();  
   G4double a = scaleXY*stm[ageGroup].a;
   G4double b = scaleXY*stm[ageGroup].b;
   G4double c = scaleZ*stm[ageGroup].c;
   G4double x0 = scaleXY*stm[ageGroup].x0;  
   G4double y0 = scaleXY*stm[ageGroup].y0;  
   G4double z0 = scaleZ*stm[ageGroup].z0;    
-  delete mmc;
+  //delete mmc;
 
  G4double ax = a;//scaleXY*4. * cm;
  G4double by= b;//scaleXY*3. * cm;
@@ -105,8 +105,8 @@ G4VPhysicalVolume* MIRDStomach::Construct(const G4String& volumeName,G4VPhysical
   }
 
   // Visualization Attributes
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
 
    G4VisAttributes* StomachVisAtt = new G4VisAttributes(colour);
   StomachVisAtt->SetForceSolid(wireFrame);

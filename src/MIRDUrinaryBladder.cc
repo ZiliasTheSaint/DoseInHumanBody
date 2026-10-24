@@ -56,22 +56,28 @@ G4VPhysicalVolume* MIRDUrinaryBladder::Construct(const G4String& volumeName, G4V
  
   G4cout << "Construct " << volumeName << G4endl;
   
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ /*HumanPhantomMaterial* material = new HumanPhantomMaterial();
  G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ delete material;*/
+  HumanPhantomMaterial material;
+  G4Material* soft = material.GetMaterial("soft_tissue");
 
- MirdMapConstants* mmc = new MirdMapConstants();  
+  /*MirdMapConstants* mmc = new MirdMapConstants();  
   mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap(); */
+  MirdMapConstants mmc;  
+  mmc.initTrunk();
+  auto trk = mmc.GetTrunkMap();
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initUrinaryBladder();
-  std::map<std::string,urinaryBladder_struct> urn = mmc->GetUrinaryBladderMap();  
+  mmc.initUrinaryBladder();//mmc->initUrinaryBladder();
+  //std::map<std::string,urinaryBladder_struct> urn = mmc->GetUrinaryBladderMap();  
+  auto urn = mmc.GetUrinaryBladderMap();
   G4double a = scaleXY*urn[ageGroup].a;
   G4double b = scaleXY*urn[ageGroup].b;
   G4double c = scaleZ*urn[ageGroup].c;
   G4double y0 = scaleXY*urn[ageGroup].y0;  
   G4double z0 = scaleZ*urn[ageGroup].z0;    
-  delete mmc;
+  //delete mmc;
 
  G4double ax = a;//scaleXY*4.958*cm; 
  G4double by= b;//scaleXY*3.458 *cm;
@@ -109,8 +115,8 @@ G4VPhysicalVolume* MIRDUrinaryBladder::Construct(const G4String& volumeName, G4V
   }
 
   // Visualization Attributes
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;////HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//G4Colour colour = colourPointer -> GetColour(colourName);
   G4VisAttributes* UrinaryBladderVisAtt = new G4VisAttributes(colour);
   //G4VisAttributes* UrinaryBladderVisAtt = new G4VisAttributes(G4Colour(0.85,0.65,0.125));
 

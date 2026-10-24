@@ -50,7 +50,7 @@ public:
   G4double getCubicVolume(){return VOL;};
   G4double getDensity(){return RHO;};
 private:
-  HumanPhantomMaterial* material;
+  //HumanPhantomMaterial* material;
   G4double VOL;
   G4double RHO;
 };

@@ -63,23 +63,23 @@ G4VPhysicalVolume* MIRDPancreas::Construct(const G4String& volumeName,G4VPhysica
 
   G4cout << "Construct "<< volumeName << G4endl;
  
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
 
- MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+ MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initPancreas();
-  std::map<std::string,pancreas_struct> pcr = mmc->GetPancreasMap();  
+  mmc.initPancreas();//mmc->initPancreas();
+  auto pcr = mmc.GetPancreasMap();//std::map<std::string,pancreas_struct> pcr = mmc->GetPancreasMap();  
   G4double a = scaleXY*pcr[ageGroup].a;
   G4double b = scaleXY*pcr[ageGroup].b;
   G4double c = scaleZ*pcr[ageGroup].c;
   G4double x0 = scaleXY*pcr[ageGroup].x0;  
   G4double x1 = scaleXY*pcr[ageGroup].x1;  
   G4double z0 = scaleZ*pcr[ageGroup].z0;    
-  delete mmc;
+  //delete mmc;
   //must put x on z axis to cut, so rotate about Y to match mird, so we have left z up x inside y!!!
   G4double ax= c;//scaleXY*3.*cm; //c
   G4double by= b;//scaleXY*1.*cm;//b
@@ -128,8 +128,8 @@ G4VPhysicalVolume* MIRDPancreas::Construct(const G4String& volumeName,G4VPhysica
 
   // Visualization Attributes
   // G4VisAttributes* PancreasVisAtt = new G4VisAttributes(G4Colour(0.28,0.82,0.8));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* PancreasVisAtt = new G4VisAttributes(colour);
   PancreasVisAtt->SetForceSolid(wireFrame);
   logicPancreas->SetVisAttributes(PancreasVisAtt);

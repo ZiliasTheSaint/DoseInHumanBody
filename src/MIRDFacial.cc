@@ -59,9 +59,9 @@ G4VPhysicalVolume* MIRDFacial::Construct(const G4String& volumeName, G4VPhysical
 					      const G4String& colourName, G4bool wireFrame,G4bool sensitivity)
 {
 
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initFacial();
-  std::map<std::string,facial_struct> esp = mmc->GetFacialMap();    
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initFacial();//mmc->initFacial();
+  auto esp = mmc.GetFacialMap();    //std::map<std::string,facial_struct> esp = mmc->GetFacialMap();    
   VOL = scaleXY*scaleXY*scaleZ*esp[ageGroup].volume; 
   return 0;
 

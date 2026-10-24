@@ -58,7 +58,7 @@ void HumanPhantomEventAction::BeginOfEventAction(const G4Event* evt)
 	}
 	if(!HumanPhantomConstruction::isMammo){
 
-		energyTotal["logicalHead"]=0.;
+		/*energyTotal["logicalHead"]=0.;
 		energyTotal["logicalSkull"]=0.;
 		energyTotal["logicalBrain"]=0.;
 		energyTotal["logicalTrunk"]=0.;
@@ -110,7 +110,13 @@ void HumanPhantomEventAction::BeginOfEventAction(const G4Event* evt)
 		energyTotal["logicalSmallIntestine"]=0.0;
 		energyTotal["logicalThymus"]=0.0;
 
-		energyTotal["logicalmaleGenitalia"]=0.0;//
+		energyTotal["logicalmaleGenitalia"]=0.0;
+		Ineficient
+		*/
+		std::map<std::string, G4double>::iterator it;
+		for (it = energyTotal.begin(); it != energyTotal.end(); ++it) {
+			it->second = 0.;
+		}
 
 		G4SDManager * SDman = G4SDManager::GetSDMpointer();  
 
@@ -130,53 +136,7 @@ void HumanPhantomEventAction::BeginOfEventAction(const G4Event* evt)
 void HumanPhantomEventAction::EndOfEventAction(const G4Event* evt)
 {  
 	if(!HumanPhantomConstruction::isMammo){
-		//==================this will be removed
-		/*doCollectionBasedScoring =true;
-		if (thyroidEDEP>0){
-			Fill("logicalThyroid",thyroidEDEP);
-			doCollectionBasedScoring =false;
-		}
-		if (liverEDEP>0){
-			Fill("logicalLiver",liverEDEP);
-			doCollectionBasedScoring =false;
-		}
-		if (heartEDEP>0){
-			Fill("logicalHeart",heartEDEP);
-			doCollectionBasedScoring =false;
-		}
-		if (leftClavicleEDEP>0){
-			Fill("logicalLeftClavicle",leftClavicleEDEP);
-			doCollectionBasedScoring =false;
-		}
-		if (rightClavicleEDEP>0){
-			Fill("logicalRightClavicle",rightClavicleEDEP);
-			doCollectionBasedScoring =false;
-		}
-		if (gallBladderEDEP>0){
-			Fill("logicalGallBladder",gallBladderEDEP);
-			doCollectionBasedScoring =false;
-		}
-		if (esophagusEDEP>0){
-			Fill("logicalEsophagus",esophagusEDEP);//NA
-			doCollectionBasedScoring =false;
-		}
-		if (smallIntestineEDEP>0){
-			Fill("logicalSmallIntestine",smallIntestineEDEP);
-			doCollectionBasedScoring =false;
-		}
-		if (leftTesticleEDEP>0){
-			Fill("logicalLeftTesticle",leftTesticleEDEP);
-			doCollectionBasedScoring =false;
-		}
-		if (rightTesticleEDEP>0){
-			Fill("logicalRightTesticle",rightTesticleEDEP);
-			doCollectionBasedScoring =false;
-		}
-		if (thymusEDEP>0){
-			Fill("logicalThymus",thymusEDEP);
-			doCollectionBasedScoring =false;
-		}*/
-		//==================================
+		
 		G4HCofThisEvent* HCE = evt->GetHCofThisEvent();
  
 		HumanPhantomHitsCollection* HC = 0;

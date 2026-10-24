@@ -66,11 +66,12 @@ void HumanPhantomSteppingAction::UserSteppingAction(const G4Step* aStep)
 
 		//G4double weight=gun->GetParticleWeight();
   
-		G4double stepl = 0.;
+		/*G4double stepl = 0.;->Gemini
 		if (aStep->GetTrack()->GetDefinition()->GetPDGCharge() != 0.)
-			stepl = aStep->GetStepLength();
+			stepl = aStep->GetStepLength();*/
      
-		if (volume == detector->GetDetector()) 
+		//volume && ->Gemini
+		if (volume && volume == detector->GetDetector()) 
 		{
 			eventaction->AddRealEnergy(edep);
 		}

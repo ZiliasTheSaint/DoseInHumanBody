@@ -61,9 +61,9 @@ G4VPhysicalVolume* MIRDGallBladder::Construct(const G4String&,G4VPhysicalVolume*
                                           const G4String&, G4bool, G4bool)
 {
   //VOL = VOL*scaleXY*scaleXY*scaleZ;//scalexy^2*scaleZ=M/M0=V/V0
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initGallBladder();
-  std::map<std::string,gallBladder_struct> esp = mmc->GetGallBladderMap();    
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initGallBladder();//mmc->initGallBladder();
+  auto esp = mmc.GetGallBladderMap();//std::map<std::string,gallBladder_struct> esp = mmc->GetGallBladderMap();    
   VOL = scaleXY*scaleXY*scaleZ*esp[ageGroup].volume;  
 
   return 0;

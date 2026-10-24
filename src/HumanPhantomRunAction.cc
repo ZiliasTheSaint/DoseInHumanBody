@@ -63,7 +63,15 @@ HumanPhantomRunAction::HumanPhantomRunAction()
 
 HumanPhantomRunAction::~HumanPhantomRunAction()
 {
-
+	//->Gemini
+	delete[] enV_array;
+    delete[] ws_array;
+    delete[] ibin_array;
+	//delete xraybuilder;
+	if (xraybuilder) {
+      delete xraybuilder;
+      xraybuilder = 0; // Previne dangling pointer în RAM
+	}
 }
 
 void HumanPhantomRunAction::fillPerEvent(G4double EDet)
@@ -176,6 +184,8 @@ void HumanPhantomRunAction::BeginOfRunAction(const G4Run* aRun)
 				//G4cout <<enV.back()<<"  "<<pV.back()<<"\n";
 			}
 		
+			// REPARATIE: Eliberãm memoria alocatã pentru linia curentã ->Gemini
+			delete[] str; 
 		}//while (myfile.good())
 		//G4cout << "\nNdata= " << ndata<<"\n";
 		//teste
@@ -206,6 +216,8 @@ void HumanPhantomRunAction::BeginOfRunAction(const G4Run* aRun)
 		  photonsPerDAP=xraybuilder->Get_photons_per_mm2_per_uGy();
 		  kermaPer_mas_at75cm=xraybuilder->GetAirKerma_per_mAs_at75cm();
 		  prepareAliasSampling(ndata,prob);
+		  // Ii dam delete[] AICI pentru a elimina leak-ul, farA a atinge restul structurii!
+		  delete[] prob; 
 	  }
 	}//END SPECTRUM
 
@@ -997,6 +1009,7 @@ void HumanPhantomRunAction::totalRunEnergyDeposit(G4int n)
 	  outfile <<resultS<<std::endl;
 	  outfile.close();
 
+	  delete mmc;//->Gemini
 	  //G4cout << "Result file created in program folder! "<< G4endl<< G4endl;
 }
 

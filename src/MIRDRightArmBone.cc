@@ -58,17 +58,17 @@ G4VPhysicalVolume* MIRDRightArmBone::Construct(const G4String& volumeName,G4VPhy
   // Remind! the elliptical cone gives problems! Intersections of volumes, 
   // wrong calculation of the volume!
    
-  HumanPhantomMaterial* material = new HumanPhantomMaterial();   
+  HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();   
   G4cout << "Construct " << volumeName << G4endl;   
-  G4Material* skeleton = material -> GetMaterial("skeleton");  
-  delete material;
+  G4Material* skeleton = material.GetMaterial("skeleton");  //material -> GetMaterial("skeleton");  
+  //delete material;
 
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;
-  mmc->initArmBone();
-  std::map<std::string,armbone_struct> arm = mmc->GetArmBoneMap();  
+  mmc.initArmBone();//mmc->initArmBone();
+  auto arm = mmc.GetArmBoneMap();  //std::map<std::string,armbone_struct> arm = mmc->GetArmBoneMap();  
   G4double a = scaleXY*arm[ageGroup].a;
   G4double b = scaleXY*arm[ageGroup].b;
   G4double z2 =scaleZ*arm[ageGroup].z2;
@@ -108,8 +108,8 @@ G4VPhysicalVolume* MIRDRightArmBone::Construct(const G4String& volumeName,G4VPhy
 
   // Visualization Attributes
   //G4VisAttributes* RightArmBoneVisAtt = new G4VisAttributes(G4Colour(0.46,0.53,0.6));
- HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* RightArmBoneVisAtt = new G4VisAttributes(colour);
 
   RightArmBoneVisAtt->SetForceSolid(wireFrame);

@@ -148,9 +148,9 @@ G4VPhysicalVolume* MIRDLiver::Construct(const G4String&,G4VPhysicalVolume*,
   return physLiver;
 */
 	//VOL = VOL*scaleXY*scaleXY*scaleZ;//scalexy^2*scaleZ=M/M0=V/V0
-	 MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initLiver();
-  std::map<std::string,liver_struct> esp = mmc->GetLiverMap();    
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initLiver();//mmc->initLiver();
+  auto esp = mmc.GetLiverMap();    //std::map<std::string,liver_struct> esp = mmc->GetLiverMap();    
   VOL = scaleXY*scaleXY*scaleZ*esp[ageGroup].volume; 
   return 0;
 }

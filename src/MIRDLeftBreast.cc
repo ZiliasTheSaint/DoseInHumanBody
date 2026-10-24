@@ -60,24 +60,24 @@ G4VPhysicalVolume* MIRDLeftBreast::Construct(const G4String& volumeName,G4VPhysi
 {
   G4cout << "Construct " << volumeName << G4endl;
  
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
 
- MirdMapConstants* mmc = new MirdMapConstants();
- mmc->initTrunk();
- std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+ MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+ mmc.initTrunk();//mmc->initTrunk();
+ auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
  G4double at = scaleXY*trk[ageGroup].At;
  G4double bt = scaleXY*trk[ageGroup].Bt;
  G4double ct = scaleXY*trk[ageGroup].Ct;
- mmc->initBreasts();
- std::map<std::string,breasts_struct> brs = mmc->GetBreastsMap();  
+ mmc.initBreasts();//mmc->initBreasts();
+ auto brs = mmc.GetBreastsMap();  //std::map<std::string,breasts_struct> brs = mmc->GetBreastsMap();  
  G4double a = scaleXY*brs[ageGroup].a;
  G4double b = scaleXY*brs[ageGroup].b;
  G4double c = scaleXY*brs[ageGroup].c;
  G4double x0 = scaleXY*brs[ageGroup].x0;
  G4double z0 = scaleZ*brs[ageGroup].z0;
- delete mmc;
+ //delete mmc;
  G4double y0 = -bt*sqrt(1.0-x0*x0/at/at);//~-8.66cm
  //G4cout << "Construct " << volumeName << G4endl;
  G4double ax= a;//scaleXY*4.95* cm;
@@ -139,8 +139,8 @@ G4VPhysicalVolume* MIRDLeftBreast::Construct(const G4String& volumeName,G4VPhysi
 
   // Visualization Attributes
   
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* LeftBreastVisAtt = new G4VisAttributes(colour);
   LeftBreastVisAtt->SetForceSolid(wireFrame);
  

@@ -62,16 +62,16 @@ G4VPhysicalVolume* MIRDRightLung::Construct(const G4String& volumeName,G4VPhysic
 
   G4cout << "Construct " << volumeName <<G4endl;
  
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* lung_material = material -> GetMaterial("lung_material");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* lung_material = material.GetMaterial("lung_material");//material -> GetMaterial("lung_material");
+ //delete material;
 
- MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+ MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initLungs();
-  std::map<std::string,lungs_struct> lgn = mmc->GetLungsMap();  
+  mmc.initLungs();//mmc->initLungs();
+  auto lgn = mmc.GetLungsMap();//std::map<std::string,lungs_struct> lgn = mmc->GetLungsMap();  
   G4double a = scaleXY*lgn[ageGroup].a;
   G4double b = scaleXY*lgn[ageGroup].b;
   G4double c = scaleZ*lgn[ageGroup].c;
@@ -81,7 +81,7 @@ G4VPhysicalVolume* MIRDRightLung::Construct(const G4String& volumeName,G4VPhysic
   G4double y1r = scaleXY*lgn[ageGroup].y1r;
   G4double z1r = scaleZ*lgn[ageGroup].z1r;
   G4double z2r = scaleZ*lgn[ageGroup].z2r;
-  delete mmc;
+  //delete mmc;
 
  G4double ax = a;//scaleXY*5. *cm; //a
  G4double by = b;//scaleXY*7.5 *cm; //b
@@ -145,8 +145,8 @@ G4VPhysicalVolume* MIRDRightLung::Construct(const G4String& volumeName,G4VPhysic
 
   // Visualization Attributes
   // G4VisAttributes* RightLungVisAtt = new G4VisAttributes(G4Colour(0.25,0.41,0.88));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* RightLungVisAtt = new G4VisAttributes(colour);
    RightLungVisAtt->SetForceSolid(wireFrame);
   logicRightLung->SetVisAttributes(RightLungVisAtt); 

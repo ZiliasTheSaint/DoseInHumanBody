@@ -58,17 +58,17 @@ MIRDPelvis::~MIRDPelvis()
 G4VPhysicalVolume* MIRDPelvis::Construct(const G4String& volumeName,G4VPhysicalVolume* mother, 
 						const G4String& colourName, G4bool wireFrame,G4bool sensitivity)
 {
-   HumanPhantomMaterial* material = new HumanPhantomMaterial();   
+   HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();   
    G4cout << "Construct " << volumeName <<G4endl;   
-  G4Material* skeleton = material -> GetMaterial("skeleton"); 
-  delete material;
+  G4Material* skeleton = material.GetMaterial("skeleton"); //material -> GetMaterial("skeleton"); 
+  //delete material;
   
-   MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;  // MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initPelvis();
-  std::map<std::string,pelvis_struct> plv = mmc->GetPelvisMap();  
+  mmc.initPelvis();//mmc->initPelvis();
+  auto plv = mmc.GetPelvisMap();  //std::map<std::string,pelvis_struct> plv = mmc->GetPelvisMap();  
   G4double a1 = scaleXY*plv[ageGroup].a1;
   G4double b1 = scaleXY*plv[ageGroup].b1;
   G4double a2 = scaleXY*plv[ageGroup].a2;
@@ -78,7 +78,7 @@ G4VPhysicalVolume* MIRDPelvis::Construct(const G4String& volumeName,G4VPhysicalV
   G4double y1 = scaleXY*plv[ageGroup].y1;  
   G4double z1 = scaleZ*plv[ageGroup].z1;    
   G4double z2 = scaleZ*plv[ageGroup].z2;    
-  delete mmc;
+  //delete mmc;
   //0<z<z2
   double zcenter = 0.5*z2;
   G4double dx= a2;//scaleXY*12. *cm; // a2
@@ -151,8 +151,8 @@ G4VPhysicalVolume* MIRDPelvis::Construct(const G4String& volumeName,G4VPhysicalV
   // Visualization Attributes
   //  G4VisAttributes* PelvisVisAtt = new G4VisAttributes(G4Colour(0.46,0.53,0.6));
  
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* PelvisVisAtt = new G4VisAttributes(colour);
   PelvisVisAtt->SetForceSolid(wireFrame);
   logicPelvis->SetVisAttributes(PelvisVisAtt);

@@ -59,19 +59,19 @@ G4VPhysicalVolume* MIRDLowerLargeIntestine::Construct(const G4String& volumeName
 {
   G4cout << "Construct "<< volumeName <<G4endl;
  
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
  
- MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+ MirdMapConstants mmc;  //MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initUpperLargeIntestine();
-  std::map<std::string,upperLargeIntestine_struct> uli = mmc->GetUpperLargeIntestineMap();  
+  mmc.initUpperLargeIntestine();//mmc->initUpperLargeIntestine();
+  auto uli = mmc.GetUpperLargeIntestineMap();  //std::map<std::string,upperLargeIntestine_struct> uli = mmc->GetUpperLargeIntestineMap();  
   G4double y0 = scaleXY*uli[ageGroup].y0;
-  mmc->initLowerLargeIntestine();
-  std::map<std::string,lowerLargeIntestine_struct> lli = mmc->GetLowerLargeIntestineMap();  
+  mmc.initLowerLargeIntestine();//mmc->initLowerLargeIntestine();
+  auto lli = mmc.GetLowerLargeIntestineMap();  //std::map<std::string,lowerLargeIntestine_struct> lli = mmc->GetLowerLargeIntestineMap();  
   G4double a = scaleXY*lli[ageGroup].a;
   G4double b = scaleXY*lli[ageGroup].b;
   G4double d = scaleXY*lli[ageGroup].d;
@@ -80,8 +80,8 @@ G4VPhysicalVolume* MIRDLowerLargeIntestine::Construct(const G4String& volumeName
   G4double my = scaleXY*lli[ageGroup].my;  
   G4double z1 = scaleZ*lli[ageGroup].z1;    
   G4double z2 = scaleZ*lli[ageGroup].z2;
-  mmc->initSigmoidColon();
-  std::map<std::string,sigmoidColon_struct> sgc = mmc->GetSigmoidColonMap();  
+  mmc.initSigmoidColon();//mmc->initSigmoidColon();
+  auto sgc = mmc.GetSigmoidColonMap();  //std::map<std::string,sigmoidColon_struct> sgc = mmc->GetSigmoidColonMap();  
   G4double aC = scaleXY*sgc[ageGroup].a;
   G4double bC = scaleXY*sgc[ageGroup].b;  
   G4double dC = scaleXY*sgc[ageGroup].d;
@@ -89,7 +89,7 @@ G4VPhysicalVolume* MIRDLowerLargeIntestine::Construct(const G4String& volumeName
   G4double z0C = scaleZ*sgc[ageGroup].z0;  
   G4double r1C = scaleZ*sgc[ageGroup].R1;     //the key!!! 
   G4double r2C = scaleZ*sgc[ageGroup].R2;      
-  delete mmc;
+  //delete mmc;
   G4double zcenter = 0.5*(z1+z2);
  G4double dx = a;//scaleXY*1.88 * cm; //a
  G4double dy = b;//scaleXY*2.13 *cm; //b
@@ -159,8 +159,8 @@ G4VPhysicalVolume* MIRDLowerLargeIntestine::Construct(const G4String& volumeName
 
   // Visualization Attributes
   //G4VisAttributes* LowerLargeIntestineVisAtt = new G4VisAttributes(G4Colour(1.0,1.0,0.0));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* LowerLargeIntestineVisAtt = new G4VisAttributes(colour);
   LowerLargeIntestineVisAtt->SetForceSolid(wireFrame);
   logicLowerLargeIntestine->SetVisAttributes(LowerLargeIntestineVisAtt);

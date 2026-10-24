@@ -62,16 +62,16 @@ G4VPhysicalVolume* MIRDRightAdrenal::Construct(const G4String& volumeName,G4VPhy
 {
   G4cout << "Construct "<< volumeName << G4endl;
  
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
  
- MirdMapConstants* mmc = new MirdMapConstants(); 
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+ MirdMapConstants mmc; //MirdMapConstants* mmc = new MirdMapConstants(); 
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initAdrenals();
-  std::map<std::string,adrenals_struct> adr = mmc->GetAdrenalsMap();  
+  mmc.initAdrenals();//mmc->initAdrenals();
+  auto adr = mmc.GetAdrenalsMap();  //std::map<std::string,adrenals_struct> adr = mmc->GetAdrenalsMap();  
   G4double a = scaleXY*adr[ageGroup].a;
   G4double b = scaleXY*adr[ageGroup].b;
   G4double c = scaleZ*adr[ageGroup].c;
@@ -79,7 +79,7 @@ G4VPhysicalVolume* MIRDRightAdrenal::Construct(const G4String& volumeName,G4VPhy
   G4double y0 = scaleXY*adr[ageGroup].y0;
   G4double z0 = scaleZ*adr[ageGroup].z0;
   G4double theta = adr[ageGroup].theta;
-  delete mmc;
+  //delete mmc;
 
  G4double ax= a;//scaleXY*1.5 *cm; //a
  G4double by= b;//scaleXY*0.5 *cm; //b
@@ -115,8 +115,8 @@ G4VPhysicalVolume* MIRDRightAdrenal::Construct(const G4String& volumeName,G4VPhy
 
   // Visualization Attributes
   //  G4VisAttributes* RightAdrenalVisAtt = new G4VisAttributes(G4Colour(0.72,0.52,0.04));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* RightAdrenalVisAtt = new G4VisAttributes(colour);
   RightAdrenalVisAtt->SetForceSolid(wireFrame);
   logicRightAdrenal->SetVisAttributes(RightAdrenalVisAtt);

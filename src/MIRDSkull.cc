@@ -59,34 +59,34 @@ G4VPhysicalVolume* MIRDSkull::Construct(const G4String& volumeName,G4VPhysicalVo
 					       G4bool wireFrame,G4bool sensitivity)
 {
   
-  HumanPhantomMaterial* material = new HumanPhantomMaterial();
+  HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
    
   G4cout << "Construct "<<volumeName <<G4endl;
    
-  G4Material* skeleton = material -> GetMaterial("skeleton");
+  G4Material* skeleton = material.GetMaterial("skeleton");//material -> GetMaterial("skeleton");
  
-  delete material;
+ // delete material;
 
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double bt = scaleXY*trk[ageGroup].Bt;
-  mmc->initHead();
-  std::map<std::string,head_struct> hed = mmc->GetHeadMap();    
+  mmc.initHead();//mmc->initHead();
+  auto hed = mmc.GetHeadMap();//std::map<std::string,head_struct> hed = mmc->GetHeadMap();    
   G4double rh = scaleXY*hed[ageGroup].Rh;
   G4double ch0 = scaleZ*hed[ageGroup].Ch0;
   G4double ch1 = scaleZ*hed[ageGroup].Ch1;
   G4double ch2 = scaleZ*hed[ageGroup].Ch2;
-  mmc->initBrain();
-  std::map<std::string,brain_struct> brn = mmc->GetBrainMap();    
+  mmc.initBrain();//mmc->initBrain();
+  auto brn = mmc.GetBrainMap(); //std::map<std::string,brain_struct> brn = mmc->GetBrainMap();    
   G4double a = scaleXY*brn[ageGroup].a;
   G4double b = scaleXY*brn[ageGroup].b;
   G4double c = scaleZ*brn[ageGroup].c;
   //G4double delta = scaleZ*brn[ageGroup].delta;
-  mmc->initSkull();
-  std::map<std::string,skull_struct> skl = mmc->GetSkullMap();    
+  mmc.initSkull();//mmc->initSkull();
+  auto skl = mmc.GetSkullMap();//std::map<std::string,skull_struct> skl = mmc->GetSkullMap();    
   G4double d = scaleXY*skl[ageGroup].d;//fat=>thicker
-  delete mmc;
+  //delete mmc;
 
   G4double deltaRh2=bt-rh;//move neck in the back instead....TO WORK!!!
   // Outer cranium
@@ -134,8 +134,8 @@ G4VPhysicalVolume* MIRDSkull::Construct(const G4String& volumeName,G4VPhysicalVo
 
   // Visualization Attributes
   //G4VisAttributes* SkullVisAtt = new G4VisAttributes(G4Colour(0.46,0.53,0.6));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* SkullVisAtt = new G4VisAttributes(colour);
   SkullVisAtt->SetForceSolid(wireFrame); 
   SkullVisAtt->SetLineWidth(4.* mm);

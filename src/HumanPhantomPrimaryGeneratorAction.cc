@@ -417,6 +417,7 @@ G4double HumanPhantomPrimaryGeneratorAction::aliasSample(){
 		//Double dbl = new Double(aj);
 		//j = dbl.intValue();// minim1 maxim nsbin!!
 		j=aj;
+		
 		if (j > nsbin)
 			j = nsbin; // " this happens only if $RANDOMSET produces
 						// " numbers in (0,1]--------> is not the DEFAULT
@@ -425,7 +426,16 @@ G4double HumanPhantomPrimaryGeneratorAction::aliasSample(){
 		if (aj > ws_array[j - 1]) {
 			j = ibin_array[j - 1];
 		}
-		alias_sample = (1.0 - v2) * en_array[j - 1] + v2 * en_array[j];// ok, xs=0 biased
+
+		//->correct by Gemini since alias_sample = (1.0 - v2) * en_array[j - 1] + v2 * en_array[j];
+		//and en_array[j] might be nsbin!!!!!!!!
+		int j_upper = j; 
+		if (j_upper >= nsbin) {
+			j_upper = nsbin - 1; // Previne citirea în afara en_array la ultimul canal
+		}
+
+		//alias_sample = (1.0 - v2) * en_array[j - 1] + v2 * en_array[j];// ok, xs=0 biased
+		alias_sample = (1.0 - v2) * en_array[j_upper - 1] + v2 * en_array[j_upper];
 
 		alias_sample=alias_sample*MeV;
 

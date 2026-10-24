@@ -62,15 +62,15 @@ G4VPhysicalVolume* MIRDRightScapula::Construct(const G4String& volumeName, G4VPh
  
   G4cout << "Construct"<< volumeName << G4endl;
 
-  HumanPhantomMaterial* material = new HumanPhantomMaterial();
-  G4Material* skeleton = material -> GetMaterial("skeleton");
+  HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+  G4Material* skeleton = material.GetMaterial("skeleton");//material -> GetMaterial("skeleton");
  
-  MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initScapula();
-  std::map<std::string,scapula_struct> scp = mmc->GetScapulaMap();  
+  mmc.initScapula();//mmc->initScapula();
+  auto scp = mmc.GetScapulaMap(); //std::map<std::string,scapula_struct> scp = mmc->GetScapulaMap();  
   G4double a1 = scaleXY*scp[ageGroup].a1;
   G4double a2 = scaleXY*scp[ageGroup].a2;
   G4double b = scaleXY*scp[ageGroup].b;
@@ -78,7 +78,7 @@ G4VPhysicalVolume* MIRDRightScapula::Construct(const G4String& volumeName, G4VPh
   G4double z2 = scaleZ*scp[ageGroup].z2;
   G4double m1 = scp[ageGroup].m1;  
   G4double m2 = scp[ageGroup].m2;  
-  delete mmc;
+  //delete mmc;
   G4double zcenter = 0.5*(z1+z2);
 
   G4double ax_in = a1;//scaleXY*17.* cm;
@@ -153,8 +153,8 @@ G4VPhysicalVolume* MIRDRightScapula::Construct(const G4String& volumeName, G4VPh
 
   // Visualization Attributes
   //G4VisAttributes* RightScapulaVisAtt = new G4VisAttributes(G4Colour(0.94,0.5,0.5));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* RightScapulaVisAtt = new G4VisAttributes(colour);
   RightScapulaVisAtt->SetForceSolid(wireFrame);
   logicRightScapula->SetVisAttributes(RightScapulaVisAtt);

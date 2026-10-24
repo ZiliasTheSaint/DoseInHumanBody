@@ -51,9 +51,9 @@ G4VPhysicalVolume* MIRDLeftTesticle::Construct(const G4String&,G4VPhysicalVolume
                                           const G4String&, G4bool, G4bool)
 {
  //VOL = VOL*scaleXY*scaleXY*scaleZ;//scalexy^2*scaleZ=M/M0=V/V0
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initTestes();
-  std::map<std::string,testes_struct> esp = mmc->GetTestesMap();    
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initTestes();//mmc->initTestes();
+  auto esp = mmc.GetTestesMap();    //std::map<std::string,testes_struct> esp = mmc->GetTestesMap();    
   VOL = 0.5*scaleXY*scaleXY*scaleZ*esp[ageGroup].volume; 
   return 0;
 }

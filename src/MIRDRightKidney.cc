@@ -64,16 +64,16 @@ G4VPhysicalVolume* MIRDRightKidney::Construct(const G4String& volumeName,
 {
   G4cout << "Construct " << volumeName << G4endl;
  
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
  
- MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;  //MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initKidneys();
-  std::map<std::string,kidneys_struct> kdn = mmc->GetKidneysMap();  
+  mmc.initKidneys();//mmc->initKidneys();
+  auto kdn = mmc.GetKidneysMap();//std::map<std::string,kidneys_struct> kdn = mmc->GetKidneysMap();  
   G4double a = scaleXY*kdn[ageGroup].a;
   G4double b = scaleXY*kdn[ageGroup].b;
   G4double c = scaleZ*kdn[ageGroup].c;
@@ -81,7 +81,7 @@ G4VPhysicalVolume* MIRDRightKidney::Construct(const G4String& volumeName,
   G4double y0 = scaleXY*kdn[ageGroup].y0;
   G4double z0 = scaleZ*kdn[ageGroup].z0;
   G4double x1 = scaleXY*kdn[ageGroup].x1;
-  delete mmc;
+  //delete mmc;
 
  G4double ax= a;//scaleXY*4.5 *cm; //a
  G4double by= b;//scaleXY*1.5 *cm; //b
@@ -125,8 +125,8 @@ G4VPhysicalVolume* MIRDRightKidney::Construct(const G4String& volumeName,
 
   // Visualization Attributes
   //G4VisAttributes* RightKidneyVisAtt = new G4VisAttributes(G4Colour(0.72,0.52,0.04));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* RightKidneyVisAtt = new G4VisAttributes(colour);
   RightKidneyVisAtt->SetForceSolid(wireFrame);
   logicRightKidney->SetVisAttributes(RightKidneyVisAtt);

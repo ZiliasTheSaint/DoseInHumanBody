@@ -61,22 +61,22 @@ G4VPhysicalVolume* MIRDRightOvary::Construct(const G4String& volumeName, G4VPhys
 { 
   G4cout << "Construct "<< volumeName << G4endl;
  
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
- G4Material* soft = material -> GetMaterial("soft_tissue");
- delete material;
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ G4Material* soft = material.GetMaterial("soft_tissue");//material -> GetMaterial("soft_tissue");
+ //delete material;
  
-  MirdMapConstants* mmc = new MirdMapConstants();  
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc; //MirdMapConstants* mmc = new MirdMapConstants();  
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();//std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double ct = scaleZ*trk[ageGroup].Ct;//our zcenter is MIRD 0.5*ct z coordinate
-  mmc->initOvaries();
-  std::map<std::string,ovaries_struct> ovr = mmc->GetOvariesMap();  
+  mmc.initOvaries();//mmc->initOvaries();
+  auto ovr = mmc.GetOvariesMap();//std::map<std::string,ovaries_struct> ovr = mmc->GetOvariesMap();  
   G4double a = scaleXY*ovr[ageGroup].a;
   G4double b = scaleXY*ovr[ageGroup].b;
   G4double c = scaleZ*ovr[ageGroup].c;
   G4double x0 = scaleXY*ovr[ageGroup].x0;  
   G4double z0 = scaleZ*ovr[ageGroup].z0;  
-  delete mmc;
+  //delete mmc;
 
  G4double ax= a;//scaleXY*1. *cm;
  G4double by= b;//scaleXY*0.5*cm;
@@ -109,8 +109,8 @@ G4VPhysicalVolume* MIRDRightOvary::Construct(const G4String& volumeName, G4VPhys
 
   // Visualization Attributes
   // G4VisAttributes* RightOvaryVisAtt = new G4VisAttributes(G4Colour(0.85,0.44,0.84));
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* RightOvaryVisAtt = new G4VisAttributes(colour);
   RightOvaryVisAtt->SetForceSolid(wireFrame);
   logicRightOvary->SetVisAttributes(RightOvaryVisAtt);

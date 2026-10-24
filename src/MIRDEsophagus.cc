@@ -63,9 +63,9 @@ G4VPhysicalVolume* MIRDEsophagus::Construct(const G4String&,G4VPhysicalVolume*,
 {
   //VOL = VOL*scaleXY*scaleXY*scaleZ;//scalexy^2*scaleZ=M/M0=V/V0
   
-  MirdMapConstants* mmc = new MirdMapConstants();
-	mmc->initEsophagus();
-  std::map<std::string,esophagus_struct> esp = mmc->GetEsophagusMap();    
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+	mmc.initEsophagus();//mmc->initEsophagus();
+  auto esp = mmc.GetEsophagusMap();    //std::map<std::string,esophagus_struct> esp = mmc->GetEsophagusMap();    
   G4double a = scaleXY*esp[ageGroup].a;  
   G4double b = scaleXY*esp[ageGroup].b;
   G4double d = scaleXY*esp[ageGroup].d;    
@@ -74,7 +74,7 @@ G4VPhysicalVolume* MIRDEsophagus::Construct(const G4String&,G4VPhysicalVolume*,
   G4double r = scaleXY*esp[ageGroup].r;
   G4double xp1 =scaleXY*esp[ageGroup].x1p;
   G4double xp2 =scaleXY*esp[ageGroup].x2p;
-  delete mmc;
+  //delete mmc;
 
   double pi =3.14159265359;
   G4double vol1 = pi*(z3-z2)*(a*b-(a-d)*(b-d));

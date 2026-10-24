@@ -55,23 +55,23 @@ G4VPhysicalVolume* MIRDMiddleLowerSpine::Construct(const G4String& volumeName,
 							  const G4String& colourName
 							  , G4bool wireFrame, G4bool sensitivity)
 {
- HumanPhantomMaterial* material = new HumanPhantomMaterial();
+ HumanPhantomMaterial material;//HumanPhantomMaterial* material = new HumanPhantomMaterial();
    
  G4cout << "Construct "<< volumeName  <<G4endl;   
-  G4Material* skeleton = material -> GetMaterial("skeleton"); 
-  delete material;
+  G4Material* skeleton = material.GetMaterial("skeleton"); //material -> GetMaterial("skeleton"); 
+  //delete material;
 
-  MirdMapConstants* mmc = new MirdMapConstants();
-  mmc->initTrunk();
-  std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
+  MirdMapConstants mmc;//MirdMapConstants* mmc = new MirdMapConstants();
+  mmc.initTrunk();//mmc->initTrunk();
+  auto trk = mmc.GetTrunkMap();  //std::map<std::string,trunk_struct> trk = mmc->GetTrunkMap();  
   G4double bt = scaleXY*trk[ageGroup].Bt;
   G4double ct = scaleZ*trk[ageGroup].Ct;//
-  mmc->initHead();
-  std::map<std::string,head_struct> hed = mmc->GetHeadMap();  
+  mmc.initHead();//mmc->initHead();
+  auto hed = mmc.GetHeadMap();  //std::map<std::string,head_struct> hed = mmc->GetHeadMap();  
   G4double rh = scaleXY*hed[ageGroup].Rh;
   G4double ch0 = scaleZ*hed[ageGroup].Ch0;
-  mmc->initSpine();
-  std::map<std::string,spine_struct> spn = mmc->GetSpineMap();  
+  mmc.initSpine();//mmc->initSpine();
+  auto spn = mmc.GetSpineMap();  //std::map<std::string,spine_struct> spn = mmc->GetSpineMap();  
   G4double a = scaleXY*spn[ageGroup].a;
   G4double b = scaleXY*spn[ageGroup].b;
   G4double y0 = scaleXY*spn[ageGroup].y0;
@@ -79,7 +79,7 @@ G4VPhysicalVolume* MIRDMiddleLowerSpine::Construct(const G4String& volumeName,
   G4double z1 = scaleZ*spn[ageGroup].z1;
   G4double spineHeight=z3-z1;//70-22 = 48 adult
   G4double spineCenter=0.5*(z3+z1);
-  delete mmc;
+  //delete mmc;
  
   //G4double deltaRh2=bt-rh;
 
@@ -112,8 +112,8 @@ G4VPhysicalVolume* MIRDMiddleLowerSpine::Construct(const G4String& volumeName,
   // Visualization Attributes
   // G4VisAttributes* MiddleLowerSpineVisAtt = new G4VisAttributes(G4Colour(0.46,0.53,0.6));
  
-  HumanPhantomColour* colourPointer = new HumanPhantomColour();
-  G4Colour colour = colourPointer -> GetColour(colourName);
+  HumanPhantomColour colourPointer;//HumanPhantomColour* colourPointer = new HumanPhantomColour();
+  G4Colour colour = colourPointer.GetColour(colourName);//colourPointer -> GetColour(colourName);
   G4VisAttributes* MiddleLowerSpineVisAtt = new G4VisAttributes(colour);
   MiddleLowerSpineVisAtt->SetForceSolid(wireFrame);
   logicMiddleLowerSpine->SetVisAttributes(MiddleLowerSpineVisAtt);
