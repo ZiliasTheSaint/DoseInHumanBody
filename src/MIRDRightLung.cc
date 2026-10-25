@@ -91,7 +91,7 @@ G4VPhysicalVolume* MIRDRightLung::Construct(const G4String& volumeName,G4VPhysic
   
  G4Ellipsoid* oneLung = new G4Ellipsoid("OneLung",ax, by, cz, zcut1,zcut2);//half
 
- ax= a-(x0-abs(x1r));//x>x1r exclusion when below conditions are met!!x1r<0,x0=8.50=>a-(x0-|x1r|) left gap!!
+ ax= a-(x0-std::abs(x1r));//x>x1r exclusion when below conditions are met!!x1r<0,x0=8.50=>a-(x0-|x1r|) left gap!!
  //in fact: xmine=xreal+x0; xreal>x1; x1<0.=>xmine>x1+x0=x0-|x1|
  //for left: xmine=xreal-x0;x<x1l exclusion=>xmine<x1l-x0
  by= b+y1r;//a shift by b follows!...y<y1r!!!!

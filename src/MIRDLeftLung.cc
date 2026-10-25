@@ -94,7 +94,7 @@ G4VPhysicalVolume* MIRDLeftLung::Construct(const G4String& volumeName,G4VPhysica
  
  G4Ellipsoid* oneLung = new G4Ellipsoid("OneLung",ax, by, cz, zcut1,zcut2);
  
- ax= a-(-x0+abs(x1l));//see right lung comments
+ ax= a-(-x0+std::abs(x1l));//see right lung comments
  by= b+y1l;
  cz= z2l-z0;
  //G4Ellipsoid* subtrLung = new G4Ellipsoid("subtrLung",ax, by, cz);

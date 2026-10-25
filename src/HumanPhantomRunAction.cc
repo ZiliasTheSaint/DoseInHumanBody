@@ -41,7 +41,17 @@
 #include "MirdMapConstants.hh"
 //#include "XRayBuilder.hh"
 #include"XRAYBuilder.hh"
-HumanPhantomRunAction::HumanPhantomRunAction()
+
+//constructor with some initializations!!! for destructor to not crash when no pointers to delete!
+HumanPhantomRunAction::HumanPhantomRunAction(): 
+	  //ndata(0),
+	  enV_array(0),
+	  ws_array(0),
+	  ibin_array(0),
+	  //photonsPerDAP(0.),
+	  //kermaPer_mas_at75cm(0.),
+	  //dummy(false),
+	  xraybuilder(0)
 {
 
 // add new units for dose 
@@ -67,11 +77,12 @@ HumanPhantomRunAction::~HumanPhantomRunAction()
 	delete[] enV_array;
     delete[] ws_array;
     delete[] ibin_array;
-	//delete xraybuilder;
-	if (xraybuilder) {
-      delete xraybuilder;
-      xraybuilder = 0; // Previne dangling pointer în RAM
-	}
+	delete xraybuilder;
+	
+	//if (xraybuilder) {
+    //delete xraybuilder;
+      //xraybuilder = 0; // Previne dangling pointer în RAM
+	//}
 }
 
 void HumanPhantomRunAction::fillPerEvent(G4double EDet)
@@ -195,7 +206,9 @@ void HumanPhantomRunAction::BeginOfRunAction(const G4Run* aRun)
 		//int ib=b;
 		//G4cout << "\a: "<<a <<" ia: "<<ia<< " b: "<<b<<" ib: "<<ib <<"\n";
 		//G4cout << "\nNumber of lines in text file: " << number_of_lines<<"\n";
-
+		
+		//delete first repopulate later:...can do since is initialized now with null. delete on null works!
+		delete[] enV_array;
 		enV_array=new double[ndata];
 		for (int i=0;i<ndata;i++)
 			enV_array[i]=enV[i];
@@ -203,6 +216,10 @@ void HumanPhantomRunAction::BeginOfRunAction(const G4Run* aRun)
 
 		myfile.close();
 	  } else {
+		  delete xraybuilder;
+		  xraybuilder = nullptr;
+		  delete[] enV_array;
+		  enV_array = nullptr;
 		  xraybuilder = new XRayBuilder(
 			  HumanPhantomPrimaryGeneratorAction::kv,//80.0
 			  HumanPhantomPrimaryGeneratorAction::filtration,//2.5
@@ -1030,6 +1047,8 @@ void HumanPhantomRunAction::prepareAliasSampling(int nsbin, std::vector<double> 
 
 		// $INTEGER nsbin,ibin_array(nsbin);
 		// $REAL fs_array(nsbin),ws_array(nsbin);
+		delete[] ws_array;
+	    delete[] ibin_array;
 	    ws_array=new double[nsbin];
 		ibin_array=new int[nsbin];
 
@@ -1059,7 +1078,7 @@ void HumanPhantomRunAction::prepareAliasSampling(int nsbin, std::vector<double> 
 			exit2b = false;
 			for (j_h = 1; j_h <= nsbin; j_h++) {
 				if (ws_array[j_h - 1] < 0) {
-					if (abs(ws_array[j_h - 1]) > sum) {
+					if (std::abs(ws_array[j_h - 1]) > sum) {
 						// GOTO :AT_EXIT1:;
 						exit1b = true;
 						break;
@@ -1072,7 +1091,7 @@ void HumanPhantomRunAction::prepareAliasSampling(int nsbin, std::vector<double> 
 
 			for (j_l = 1; j_l <= nsbin; j_l++) {
 				if (ws_array[j_l - 1] < 0) {
-					if (abs(ws_array[j_l - 1]) < sum) {
+					if (std::abs(ws_array[j_l - 1]) < sum) {
 						// GOTO :AT_EXIT2:;
 						exit2b = true;
 						break;
@@ -1083,7 +1102,7 @@ void HumanPhantomRunAction::prepareAliasSampling(int nsbin, std::vector<double> 
 				j_l = nsbin;
 			// :AT_EXIT2:
 
-			aux = sum - abs(ws_array[j_l - 1]);
+			aux = sum - std::abs(ws_array[j_l - 1]);
 			ws_array[j_h - 1] = ws_array[j_h - 1] + aux;
 			ws_array[j_l - 1] = -ws_array[j_l - 1] / sum;
 			ibin_array[j_l - 1] = j_h;
@@ -1114,6 +1133,8 @@ void HumanPhantomRunAction::prepareAliasSampling(int nsbin, double* fs_array){
 
 		// $INTEGER nsbin,ibin_array(nsbin);
 		// $REAL fs_array(nsbin),ws_array(nsbin);
+		delete[] ws_array;
+	    delete[] ibin_array;
 	    ws_array=new double[nsbin];
 		ibin_array=new int[nsbin];
 
@@ -1143,7 +1164,7 @@ void HumanPhantomRunAction::prepareAliasSampling(int nsbin, double* fs_array){
 			exit2b = false;
 			for (j_h = 1; j_h <= nsbin; j_h++) {
 				if (ws_array[j_h - 1] < 0) {
-					if (abs(ws_array[j_h - 1]) > sum) {
+					if (std::abs(ws_array[j_h - 1]) > sum) {
 						// GOTO :AT_EXIT1:;
 						exit1b = true;
 						break;
@@ -1156,7 +1177,7 @@ void HumanPhantomRunAction::prepareAliasSampling(int nsbin, double* fs_array){
 
 			for (j_l = 1; j_l <= nsbin; j_l++) {
 				if (ws_array[j_l - 1] < 0) {
-					if (abs(ws_array[j_l - 1]) < sum) {
+					if (std::abs(ws_array[j_l - 1]) < sum) {
 						// GOTO :AT_EXIT2:;
 						exit2b = true;
 						break;
@@ -1167,7 +1188,7 @@ void HumanPhantomRunAction::prepareAliasSampling(int nsbin, double* fs_array){
 				j_l = nsbin;
 			// :AT_EXIT2:
 
-			aux = sum - abs(ws_array[j_l - 1]);
+			aux = sum - std::abs(ws_array[j_l - 1]);
 			ws_array[j_h - 1] = ws_array[j_h - 1] + aux;
 			ws_array[j_l - 1] = -ws_array[j_l - 1] / sum;
 			ibin_array[j_l - 1] = j_h;

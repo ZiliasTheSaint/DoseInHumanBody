@@ -22,7 +22,9 @@ const string XRayBuilder::rippleExt_R = ".R";
 #endif
 
 XRayBuilder::XRayBuilder(double kv, double filtration, double anodAngle, double ripple, string anodMaterial)
-	:ndata(0)
+	:ndata(0), //below: pointers initialization to ce able to delete everywhere
+	 en_array(0), YF(0), XVAL(0), KVAL(0),
+	 YS(0), TMM(0), ATT(0), ATTVAL(0)
 {
 	this->kv=kv;
 	this->filtration=filtration;
@@ -363,7 +365,11 @@ void XRayBuilder::buildSpectra(){
 	double d = kv / DE;// number of energies!!
 	int N = d;//.intValue();
 	NEFF = N;//store it
+
+	//if build spectra can be called multiple times, it is good ideea to delete pointers first
+	delete[] YF;
 	YF=new double[N];/////////////////////INITIALIZATION
+	
 	for (int i = 1; i <= N; i++) {
 		YF[i - 1] = 1.0;//initialization
 	}
@@ -553,6 +559,8 @@ void XRayBuilder::readAttCoef(string filename)
 	
 	//G4cout << "\nNumber of lines in text file [FILTER]: " << number_of_lines<<" ndatak "<<ndatak<<"\n";
 	//----------------------------------
+	//if read spectrum called multiple times=>delete pointer first
+	delete[] ATTVAL;
 	ATTVAL=new double[ndatak];
 	for(int i=0;i<ndatak;i++)
 		ATTVAL[i]=pV[i];

@@ -299,7 +299,7 @@ void HumanPhantomPrimaryGeneratorAction::GenerateMammoField(){
   //-----------------------------
   G4double sintet = sqrt(1.0 - costet * costet);
   G4double tgtet = sintet / costet;
-  G4double teta = abs(atan(tgtet));// -pi/2,pi/2; teta is polar angle and should be >0!
+  G4double teta = std::abs(atan(tgtet));// -pi/2,pi/2; teta is polar angle and should be >0!
   //----------AZIMUTHAL ANGLE----------	  
   r = G4UniformRand();
   G4double phi2 = 2.0 * pi * r;
