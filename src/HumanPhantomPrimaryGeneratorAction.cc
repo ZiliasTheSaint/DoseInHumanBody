@@ -360,7 +360,7 @@ void HumanPhantomPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	   sliceIndex++;
 
 	   //============test if out of field and if it is, then RESET to starting position	
-		if (sliceIndex>nSlices){
+		if (sliceIndex>=nSlices){
 			//reset, start over , from starting position			
 			sliceIndex=0;
 			helical_rotations=0;
@@ -465,7 +465,17 @@ void HumanPhantomPrimaryGeneratorAction::GenerateCTScan()
    //////////////////////////////
 
    r=G4UniformRand();
-   G4double y=(2.0*r-1.0)*sliceThickness;//fieldHeight;
+   // in rectangle field:G4double y=(2.0*r-1.0)*fieldHeight*0.5;//-h/2,+h/2
+   
+   //G4double y=(2.0*r-1.0)*sliceThickness;//fieldHeight;//-sliceThickness->sliceThickness???
+   G4double y=(2.0*r-1.0)*sliceThickness*0.5;//-sliceThickness/2, +sliceThickness/2 
+   //Da asa e corect...in end of run (totalRunEnergyDeposit):
+   //DAP=h*w*CTDI;//per rotation, because CTDI means per rotation and
+   //double w=HumanPhantomPrimaryGeneratorAction::GetSliceThickness();//mm default units...for pencil beam
+	//	  double h=w;//mm. always h=sliceThickness
+	//	  if (HumanPhantomPrimaryGeneratorAction::isFanBeam){
+	//		  w=HumanPhantomPrimaryGeneratorAction::GetFieldWidth();//mm default units!
+	//	  }
    //G4double z=-0.5*(worldLength)*cm;//worldLength(200.)=preset~FSD+phthickness/2.0
    G4double z=-0.5*(worldLength);//already in cm DO NOT EXCEED WORLDLENGTH OR ERRORS WILL OCCUR!!
    G4double D=sqrt(x*x+y*y+z*z);

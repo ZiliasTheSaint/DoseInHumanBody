@@ -584,7 +584,7 @@ void HumanPhantomRunAction::EndOfRunAction(const G4Run* aRun)
         //scaned array does not encompass value
         if (age[0]>ageValue){
             lowerIndex = 0;
-        } else if (age[ageSize-1]<ageValue){
+        } else if (age[ageSize-1]<=ageValue){
             lowerIndex = ageSize-2;
         }
      }     
@@ -955,13 +955,13 @@ void HumanPhantomRunAction::totalRunEnergyDeposit(G4int n)
     cancerMortality_female[10]=190.;
 	double ageValue = phantom->GetPhantomAge();
     bool lowerThanValue = true;
-    int ageSize=7;
+    int ageSize=11;//int ageSize=7;
     int lowerIndex = findNearestDataIndexFromArray(age, ageSize, ageValue, lowerThanValue);
     if (lowerIndex==ageSize-1){
         //scaned array does not encompass value
         if (age[0]>ageValue){
             lowerIndex = 0;
-        } else if (age[ageSize-1]<ageValue){
+        } else if (age[ageSize-1]<=ageValue){
             lowerIndex = ageSize-2;
         }
     }

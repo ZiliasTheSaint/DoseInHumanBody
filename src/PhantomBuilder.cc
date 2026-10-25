@@ -104,7 +104,7 @@ void PhantomBuilder::BuildLeftLegBone(const G4String& colourName, G4bool solidVi
 
 void PhantomBuilder::BuildRightLegBone(const G4String& colourName, G4bool solidVis, G4bool sensitivity)
 { 
-  if (trunkVolume == 0)
+  if (rightLegVolume == 0)
     G4Exception("PhantomBuilder::BuildRightLegBone()", "human_phantom0018", FatalException, "The right leg volume is missing !!!!!");
   
   G4cout <<"MotherVolume: " << rightLegVolume -> GetName()<< G4endl;
@@ -118,7 +118,7 @@ void PhantomBuilder::BuildRightLegBone(const G4String& colourName, G4bool solidV
 void PhantomBuilder::BuildLeftArmBone(const G4String& colourName, G4bool solidVis, G4bool sensitivity)
 { 
   if (trunkVolume == 0)
-    G4Exception("PhantomBuilder::BuildLeftArmBone()", "human_phantom0019", FatalException, "The world volume is missing !!!!!");
+    G4Exception("PhantomBuilder::BuildLeftArmBone()", "human_phantom0019", FatalException, "The trunk volume is missing !!!!!");
   
   G4cout <<"MotherVolume: " <<  trunkVolume -> GetName()<< G4endl;
   G4cout << "sensitivity : "<< sensitivity << G4endl; 
@@ -439,7 +439,7 @@ void PhantomBuilder::BuildUrinaryBladder(const G4String& colourName, G4bool soli
 void PhantomBuilder::BuildThyroid(const G4String& colourName, G4bool solidVis, G4bool sensitivity )
 { 
    if (headVolume == 0)
-     G4Exception("PhantomBuilder::BuildThyroid()", "human_phantom0046", FatalException, "The trunk volume is missing !!!!!");
+     G4Exception("PhantomBuilder::BuildThyroid()", "human_phantom0046", FatalException, "The head volume is missing !!!!!");
 
    body -> CreateOrgan("Thyroid",headVolume, colourName,solidVis, sensitivity);
   volOfThyroid=body->GetBodyVOL("Thyroid");
